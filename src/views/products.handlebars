@@ -20,10 +20,12 @@
                     <img src={{this}} alt="" id="thumbnails">
                 {{/each}}
             </p>
-            <input type="submit" value="Add to my cart" onclick="">
+            <button name={{this._id}} type="button" onclick="addToMyCart(this.name);">Add to my cart</button>
         </div>
     {{/each}}
 
 <a href={{result.prevLink}}>Previous</a> 
 
 <a href={{result.nextLink}}>Next</a>
+<script src="../socket.io/socket.io.js"></script>
+<script src="../js/products.io.js"></script>

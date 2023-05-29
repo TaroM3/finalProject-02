@@ -22,6 +22,9 @@ import messageModel from "./DAO/model/message.model.js";
 import productModel from "./DAO/model/product.model.js";
 import cartModel from "./DAO/model/cart.model.js";
 
+//Managers
+import CartManager from "./DAO/helpers/CartManager.js";
+
 
 const server = express();
 
@@ -98,6 +101,13 @@ const main = async () => {
       //console.log(messages)
       io.emit("conversations", data);
     });
+
+
+    socket.on('addProductToMyCart', async (_id) => {
+      console.log('Product added to my cart' + _id._id)
+      let cartManager = new CartManager();
+      cartManager.addProductToMyCart(_id._id)
+    })
   });
 };
 
