@@ -112,7 +112,7 @@ export default class ProductManager {
 
         let string = String(param)
         // console.log(string.length)
-        if (param.match('asc') && string.length === 5) {
+        if (param.match('asc') && string.length === 5 ) {
             return 'asc';
         } else if (param.match('desc') && string.length === 6) {
             return 'desc';
