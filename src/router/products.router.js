@@ -5,6 +5,7 @@ import ProductManager from "../DAO/helpers/productManager.js";
 const router = Router();
 // GET  /api/products[?:limit=N][?:sort=][?page=n][?query=string]
 // query -> sort -> page -> limit //
+//----------- to change: method productPaginate() -----------------// 
 router.get("/", async (req, res) => {
 
 
@@ -21,8 +22,9 @@ router.get("/", async (req, res) => {
 // console.log(val)
   const productManager = new ProductManager()
   const result = await productManager.productPaginate(sort, parseInt(page), parseInt(limit), query.valueOf()) 
-    
-  res.render('products', {result})
+  
+  const user = req.session.user
+  res.render('products', {result, user})
 
 });
 

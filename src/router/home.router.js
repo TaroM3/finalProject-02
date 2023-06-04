@@ -7,6 +7,9 @@ router.get('/', async (req, res) => {
 
     const products = await productModel.find().lean().exec()
     console.log(products)
+ 
+
+    isSessionAlive()
     res.render('home', { products })
  
 })

@@ -1,6 +1,10 @@
 //Express
 import express from "express";
 
+//Session
+import session from "express-session";
+import MongoStore from "connect-mongo";
+
 //Handlebars
 import handlebars from "express-handlebars";
 
@@ -10,6 +14,9 @@ import homeRouter from "./router/home.router.js"
 import cartRouter from "./router/carts.router.js"
 import realTimeProductsRouter from "./router/realTimeProducts.router.js";
 import productRouter from "./router/products.router.js"
+
+//Sessions Routers
+import sessionRouter from './router/session.router.js'
 
 //Mongoose
 import mongoose from "mongoose";
@@ -27,6 +34,27 @@ import CartManager from "./DAO/helpers/CartManager.js";
 
 
 const server = express();
+
+const uri =
+  "mongodb+srv://taromelillo:Hw8C2a43e6CXWHK6@cluster0.4lcw6qm.mongodb.net/";
+
+server.use(session({
+
+  store: MongoStore.create({
+    mongoUrl: uri,
+    dbName: 'ecommerce',
+    mongoOptions: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    },
+    ttl: 1000000,
+  }),
+  secret: 'c0d3r',
+  resave: true,
+  saveUninitialized: true
+}))
+
+
 
 //httpServer and WebsocketIO
 const httpServer = server.listen(8080, () => {
@@ -49,11 +77,13 @@ server.use("/api/carts", cartRouter);
 server.use("/api/products", productRouter)
 server.use("/realTimeProducts", realTimeProductsRouter)
 
+//sessions router
+server.use('/session', sessionRouter)
+// server.use('/session', sessionRouter)
+
 //static url is defined
 server.use(express.static("src/views"));
-
-const uri =
-  "mongodb+srv://taromelillo:Hw8C2a43e6CXWHK6@cluster0.4lcw6qm.mongodb.net/";
+server.use('/', (req,res) => { res.redirect('session/login')})
 
 const main = async () => {
   await mongoose.connect(uri, { dbName: "ecommerce" });
@@ -64,9 +94,9 @@ const main = async () => {
     console.log(
       "Time: ",
       new Date().toLocaleString() +
-        " Client socket " +
-        socket.id +
-        " connected..."
+      " Client socket " +
+      socket.id +
+      " connected..."
     );
 
     socket.on("productAdded", async (data) => {
@@ -97,7 +127,7 @@ const main = async () => {
         message: data.message,
       });
       console.log(data);
-    //   messages.push(data);
+      //   messages.push(data);
       //console.log(messages)
       io.emit("conversations", data);
     });
@@ -112,3 +142,4 @@ const main = async () => {
 };
 
 main();
+
