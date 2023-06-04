@@ -13,8 +13,8 @@ router.get('/register', (req, res) => {
 router.post('/register', async(req, res) => {
     const userNew = req.body
 
-    if (userNew.first_name === undefined || userNew.last_name === undefined || userNew.email === undefined || userNew.age === undefined || userNew.password === undefined){
-        return res.status(401).render('./errors/base', {error: ''})
+    if (userNew.first_name === '' || userNew.last_name === '' || userNew.email === '' || userNew.age === '' || userNew.password === ''){
+        return res.status(401).render('./errors/base', {error: 'Your data is required'})
     }
     if( userNew.email == 'adminCoder@coder.com'){
           return res.status(401).render('./errors/base', {error: 'Email\'s already registered.'})
