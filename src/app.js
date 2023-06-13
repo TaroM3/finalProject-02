@@ -32,6 +32,10 @@ import cartModel from "./DAO/model/cart.model.js";
 //Managers
 import CartManager from "./DAO/helpers/CartManager.js";
 
+//Passport
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
+
 
 const server = express();
 
@@ -39,7 +43,6 @@ const uri =
   "mongodb+srv://taromelillo:Hw8C2a43e6CXWHK6@cluster0.4lcw6qm.mongodb.net/";
 
 server.use(session({
-
   store: MongoStore.create({
     mongoUrl: uri,
     dbName: 'ecommerce',
@@ -54,6 +57,11 @@ server.use(session({
   saveUninitialized: true
 }))
 
+
+//Passport
+initializePassport()
+server.use(passport.initialize())
+server.use(passport.session())
 
 
 //httpServer and WebsocketIO
@@ -78,7 +86,7 @@ server.use("/api/products", productRouter)
 server.use("/realTimeProducts", realTimeProductsRouter)
 
 //sessions router
-server.use('/session', sessionRouter)
+server.use('/api/session', sessionRouter)
 // server.use('/session', sessionRouter)
 
 //static url is defined

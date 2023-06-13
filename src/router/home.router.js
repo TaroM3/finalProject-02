@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     console.log(products)
  
 
-    isSessionAlive()
+    
     res.render('home', { products })
  
 })
