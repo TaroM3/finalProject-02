@@ -105,8 +105,8 @@ router.get('/logout', (req, res) => {
 
 router.get('/github', passport.authenticate('github', { scope: ['user: email'] }), (req, res) => { })
 
-router.get('/githubcallback', passport.authenticate('github', { failureRedirect: './login' }), async (req, res) => {
-    req.session.user = req.user
+router.get('/githubcallback', passport.authenticate('github', { failureRedirect: './login' }), async (req, res, user) => {
+    req.session.user = user
     res.redirect('/api/products')
 })
 

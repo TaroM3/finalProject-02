@@ -19,9 +19,13 @@ const initializePassport = () => {
             if(user) return done(null, user)
 
             const newUser = await userModel.create({
-                first_name: profile._json.name,
-                email: profile._json.email
+                first_name: profile.displayName,
+                email: profile._json.email,
+                role: profile._json.type
             })
+
+            console.log(newUser.first_name)
+            console.log()
             return done(null, newUser)
         } catch (err) {
             return done('Error to login with Github '+ err)
@@ -29,7 +33,7 @@ const initializePassport = () => {
     }))
 
     passport.serializeUser( (user, done) => {
-        done(null, user._id)
+        done(null, user)
     })
 
     passport.deserializeUser( async(_id, done) => {

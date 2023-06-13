@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
   const productManager = new ProductManager()
   const result = await productManager.productPaginate(sort, parseInt(page), parseInt(limit), query.valueOf()) 
   
-  const user = req.session.user
+  const user = req.session.user || req.session.passport.user
   res.render('products', {result, user})
 
 });
