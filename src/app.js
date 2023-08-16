@@ -36,6 +36,24 @@ import CartManager from "./DAO/helpers/CartManager.js";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
 
+//SwagerDoc
+import swaggerJSDoc from "swagger-jsdoc";
+import SwaggerUiExpress from "swagger-ui-express";
+
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.1',
+    info: {
+      title: 'Documentacion de la app',
+      description: 'Documentacion de prueba para el proyecto'
+    }
+  },
+  apis: ['./docs/**/*.yaml']
+}
+
+const specs = swaggerJSDoc(swaggerOptions)
+
+
 
 const server = express();
 
@@ -88,6 +106,9 @@ server.use("/realTimeProducts", realTimeProductsRouter)
 //sessions router
 server.use('/api/session', sessionRouter)
 // server.use('/session', sessionRouter)
+
+//docs
+server.use('/docs', SwaggerUiExpress.serve, SwaggerUiExpress.setup(specs))
 
 //static url is defined
 server.use(express.static("src/views"));

@@ -1,0 +1,81 @@
+paths:
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene el carrito especifico del usuario
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: id del carrito asigando al usuario.
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: El carrito :cid se obtuvo satisfactoriamente de la base de datos
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Cart'
+        "500":
+          description: Hubo un error interno en el servidor
+
+    put:
+      summary: Actualiza el carrito a partir de su id
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: Id del carrito
+        schema:
+          $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/updatecart' 
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado por MongoDB
+        products:
+          type: array
+          properties:
+            product:
+              type: object
+              description: Producto
+            quantity:
+              type: Integer
+              description: Cantidad de unidades del producto
+          description: Array de productos seleccionados por el cliente antes de la compra
+      example:
+        _id: ObjectId("646c2259b8a4904918a9f087")
+        products: Array
+        [0]: Object
+        product: ObjectId("646c1f3f5fa7f28e61b74849")
+        quantity: 77777
+  requestBodies:
+    updatecart:
+      type: object
+      properties:
+        products:
+          type: array
+          properties:
+            product:
+              type: object
+              description: Producto
+            quantity:
+              type: Integer
+              description: Cantidad de unidades del producto
+          description: Array de productos seleccionados por el cliente antes de la compra
+
+

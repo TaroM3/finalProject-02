@@ -24,6 +24,8 @@
     "nodemon": "^2.0.22",
     "passport": "^0.6.0",
     "passport-github2": "^0.1.12",
-    "socket.io": "^4.6.1"
+    "socket.io": "^4.6.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   }
 }
